@@ -7,38 +7,56 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
-    
- </head>
+    <style>
+        html {
+            background: url(images/demo16.jpg) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    </style>
 
-    <body>
-        <h2 class="subtitle has-text-centered">Welcome to</h2>
-        <h1 class="title has-text-centered">Solace Destruction Derby!!</h1>
-        <div class="box has-text-centered">
+</head>
+
+<body>
+    <h2 class="subtitle has-text-centered has-text-warning">Welcome to</h2>
+    <h1 class="title has-text-centered has-text-warning">Solace Destruction Derby!!</h1>
+    <div class="message is-dark">
+        <label class="label is-dark has-text-centered">Playername</label>
+        <div class="message-body is-dark">
             <div class="field">
-                <label class="label">Username</label>
                 <div class="control has-icons-left">
-                    <input class="input is-success" type="text" placeholder="Text input" value="bulma">
+                    <input class="input is-dark" type="text" placeholder="Enter player name" value="">
                     <span class="icon is-small is-left">
                         <i class="fas fa-user"></i>
                     </span>
                 </div>
             </div>
-            <div id="app">
-                {{ message }}
+            <div class="field has-text-centered">
+                <div class="control">
+                    <button class="button is-link">Join the Game!</button>
+                </div>
             </div>
         </div>
+    </div>
+    <div id="app">
+        {{ message }}
+    </div>
 
-        <script>  
-            var app = new Vue({
-                el: '#app',
-                data: {
-                    message: 'Hello Vue!'
-                }
-            })
-        </script>
 
-    </body>
+    <script>  
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!'
+            }
+        })
+    </script>
 
-    </html>
+</body>
+
+</html>
