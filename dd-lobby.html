@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Solace Team 1 - Destruction Derby</title>
+    <title>Solace Team 1 - Desctruction Derby Lobby</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
@@ -26,38 +26,10 @@
             background-size: cover;
         }
     </style>
-    <script>
-        var publisher = null;
-
-        window.onload = function () {
-          // Initialize factory with the most recent API defaults
-          var factoryProps = new solace.SolclientFactoryProperties();
-          factoryProps.profile = solace.SolclientFactoryProfiles.version10;
-          solace.SolclientFactory.init(factoryProps);
-  
-          // enable logging to JavaScript console at WARN level
-          // NOTICE: works only with "solclientjs-debug.js"
-          solace.SolclientFactory.setLogLevel(solace.LogLevel.WARN);
-  
-          // create the publisher, specifying name of the subscription topic
-          publisher = new TopicPublisher('dd/t/players');
-          publisher.connect();
-
-          // assign buttons to the publisher functions
-          document.getElementById("join").addEventListener("click", function () {
-            publisher.publish(document.getElementById("playerName").value);
-            window.location.href = "dd-lobby.html";
-          }); 
-        };
-        function iframeloaded(){
-          if (publisher) {
-            publisher.connectToSolace();
-          }
-        };
-      </script>
 </head>
 
 <body>
+
     <div uk-grid>
         <div class="uk-width-1-4"></div>
         <div class="uk-width-2-4">
@@ -65,16 +37,45 @@
             <div class="uk-card uk-card-body uk-card-secondary uk-position-center">
                 <img class="uk-align-center uk-background-default" width="250" src="./dd-web-app/images/solace-logo-site-header.png">
                 <h3 class="uk-card-title uk-text-warning">Solace Destruction Derby</h3>
-                <form>
-                    <div class="uk-margin">
-                        <input id="playerName" class="uk-input uk-form-large" type="text" placeholder="Enter player name">
-                    </div>
-                </form>
-                <button id="join" class="uk-button uk-button-default uk-align-center">Play Game!</button>
+                <table class="uk-table">
+                    <thead>
+                        <tr>
+                            <th>Position</th>
+                            <th>Player Name</th>
+                            <th>Status</th>
+                        </tr>
+                        <tr class="uk-background-primary">
+                            <td>1</td>
+                            <td>Andrew</td>
+                            <td><i class="fas fa-play-circle" style="color:green"></i></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Fred</td>
+                            <td><i class="fas fa-play-circle" style="color:blue"></i></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Angie</td>
+                            <td><i class="fas fa-play-circle" style="color:orangered"></i></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Taylor</td>
+                            <td><i class="fas fa-pause-circle"></i></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Julie</td>
+                            <td><i class="fas fa-pause-circle"></i></td>
+                        </tr>                        
+                    </thead>
+                </table>
             </div>
         </div>
         <div class="uk-width-1-4"></div>
     </div>
+
 </body>
 
 </html>
