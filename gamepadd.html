@@ -20,7 +20,12 @@
     <script src="dd-web-app/js/play.js"></script>
     
     <script>
-        var manager = nipplejs.create(options);
+        var jpad = nipplejs.create({
+            zone: document.getElementById('jpad'),
+            mode: 'static',
+            position: {left: '50%', top: '50%'},
+            color: 'green'
+        });
     </script>
     
     <style>
@@ -35,7 +40,7 @@
 </head>
 
 <body>
-
+    <div id="jpad"></div>
 </body>
 
 </html>
