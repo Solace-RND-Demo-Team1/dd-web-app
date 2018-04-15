@@ -1,8 +1,3 @@
-const username = "fill in to run";
-const password = "fill in to run";
-const msgVpn = "fill in to run";
-const hostUrl = "fill in to run";
-
 var TopicPublisher = function (topicName) {
     'use strict';
     var publisher = {};
