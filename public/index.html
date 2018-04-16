@@ -41,7 +41,7 @@
           solace.SolclientFactory.setLogLevel(solace.LogLevel.WARN);
   
           // create the publisher, specifying name of the subscription topic
-          publisher = new TopicPublisher('dd/t/players');
+          publisher = new TopicPublisher('dd/t/join');
           publisher.connect();
 
           // assign buttons to the publisher functions
