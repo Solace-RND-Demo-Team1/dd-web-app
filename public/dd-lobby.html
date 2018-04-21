@@ -67,6 +67,7 @@
 
             solPubSub.session.on(solace.SessionEventCode.UP_NOTICE, function (sessionEvent) {
                 solPubSub.subscribe('dd/t/lobby');
+                solPubSub.request('dd/t/lobby/req');
             });            
         };
       </script>
