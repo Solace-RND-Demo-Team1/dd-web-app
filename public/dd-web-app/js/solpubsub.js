@@ -151,6 +151,46 @@ var SolPubSub = function () {
         } 
     };
 
+    // sends one request
+    solPubSub.request = function (topicName) {
+        if (solPubSub.session !== null) {
+            var requestText = 'SEND_LOBBY';
+            var request = solace.SolclientFactory.createMessage();
+            solPubSub.log('Sending request "' + requestText + '" to topic "' + topicName + '"...');
+            request.setDestination(solace.SolclientFactory.createTopicDestination(topicName));
+            request.setSdtContainer(solace.SDTField.create(solace.SDTFieldType.STRING, requestText));
+            request.setDeliveryMode(solace.MessageDeliveryModeType.DIRECT);
+            try {
+                solPubSub.session.sendRequest(
+                    request,
+                    5000, // 5 seconds timeout for this operation
+                    function (session, message) {
+                        solPubSub.replyReceivedCb(session, message);
+                    },
+                    function (session, event) {
+                        solPubSub.requestFailedCb(session, event);
+                    },
+                    null // not providing correlation object
+                );
+            } catch (error) {
+                solPubSub.log(error.toString());
+            }
+        } else {
+            solPubSub.log('Cannot send request because not connected to Solace message router.');
+        }
+    };
+
+    // Callback for replies
+    solPubSub.replyReceivedCb = function (session, message) {
+        solPubSub.log('Received reply: "' + message.getSdtContainer().getValue() + '"' +
+            ' details:\n' + message.dump());
+    };
+
+    // Callback for request failures
+    solPubSub.requestFailedCb = function (session, event) {
+        solPubSub.log('Request failure: ' + event.toString());
+    };
+
     // Gracefully disconnects from Solace message router
     solPubSub.disconnect = function () {
         solPubSub.log('Disconnecting from Solace message router...');
