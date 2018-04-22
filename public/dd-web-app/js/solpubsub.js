@@ -71,10 +71,7 @@ var SolPubSub = function () {
         solPubSub.session.on(solace.SessionEventCode.MESSAGE, function (message) {
             solPubSub.log('Received message: "' + message.getBinaryAttachment() + '", details:\n' +
                 message.dump());
-            let newPlayers = JSON.parse(message.getBinaryAttachment());
-            newPlayers.forEach(function(value) {
-                players.push(value);
-            });                        
+            updatePlayers(message.getBinaryAttachment());                        
         });
 
         solPubSub.connectToSolace();
@@ -184,6 +181,7 @@ var SolPubSub = function () {
     solPubSub.replyReceivedCb = function (session, message) {
         solPubSub.log('Received reply: "' + message.getSdtContainer().getValue() + '"' +
             ' details:\n' + message.dump());
+        updatePlayers(message.getSdtContainer().getValue());
     };
 
     // Callback for request failures
