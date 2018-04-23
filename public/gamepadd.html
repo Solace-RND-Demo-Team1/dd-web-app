@@ -82,9 +82,10 @@
             mode: 'static',
             position: { left: '50%', top: '50%' },
             color: 'yellow'
-        }).on('dir:up dir:left dir:down dir:right',
+        }).on('plain:up plain:left plain:down plain:right',
             function(evt, data) {
                 console.log(evt.type);
+                solPubSub.publish(evt.type, 'dd/t/active/blue');
         });
     </script>
 </body>
