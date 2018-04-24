@@ -155,7 +155,7 @@ var SolPubSub = function () {
             var request = solace.SolclientFactory.createMessage();
             solPubSub.log('Sending request "' + requestText + '" to topic "' + topicName + '"...');
             request.setDestination(solace.SolclientFactory.createTopicDestination(topicName));
-            request.setSdtContainer(solace.SDTField.create(solace.SDTFieldType.STRING, requestText));
+            request.setBinaryAttachment(requestText);
             request.setDeliveryMode(solace.MessageDeliveryModeType.DIRECT);
             try {
                 solPubSub.session.sendRequest(
@@ -179,9 +179,17 @@ var SolPubSub = function () {
 
     // Callback for replies
     solPubSub.replyReceivedCb = function (session, message) {
-        solPubSub.log('Received reply: "' + message.getSdtContainer().getValue() + '"' +
+        solPubSub.log('Received reply: "' + message.getBinaryAttachment() + '"' +
             ' details:\n' + message.dump());
-        updatePlayers(message.getSdtContainer().getValue());
+        let response = message.getBinaryAttachment();
+        if (response === 'SUCCESS') {
+            console.log('redirect');
+            document.location.href = 'dd-lobby.html';
+        } else if (response == 'DUP_NAME') {
+            console.log('dup');
+        } else {
+            updatePlayers(response);
+        }
     };
 
     // Callback for request failures
