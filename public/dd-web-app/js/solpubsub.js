@@ -149,9 +149,9 @@ var SolPubSub = function () {
     };
 
     // sends one request
-    solPubSub.request = function (topicName) {
+    solPubSub.request = function (topicName, operation) {
         if (solPubSub.session !== null) {
-            var requestText = 'SEND_LOBBY';
+            var requestText = operation;
             var request = solace.SolclientFactory.createMessage();
             solPubSub.log('Sending request "' + requestText + '" to topic "' + topicName + '"...');
             request.setDestination(solace.SolclientFactory.createTopicDestination(topicName));

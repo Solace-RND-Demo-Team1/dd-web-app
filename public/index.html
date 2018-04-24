@@ -46,14 +46,9 @@
 
           // assign buttons to the solPubSub functions
           document.getElementById("join").addEventListener("click", function () {
-            solPubSub.publish(document.getElementById("playerName").value, 'dd/t/join');
+            solPubSub.request('dd/t/join', document.getElementById("playerName").value);
             window.location.href = "dd-lobby.html";
           }); 
-        };
-        function iframeloaded(){
-          if (solPubSub) {
-            solPubSub.connectToSolace();
-          }
         };
       </script>
 </head>
