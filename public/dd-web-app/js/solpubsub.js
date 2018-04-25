@@ -187,6 +187,7 @@ var SolPubSub = function () {
             document.location.href = 'dd-lobby.html';
         } else if (response == 'DUP_NAME') {
             console.log('dup');
+            UIkit.notification('That name is already taken. Choose another.', {status: 'danger'});
         } else {
             updatePlayers(response);
         }
