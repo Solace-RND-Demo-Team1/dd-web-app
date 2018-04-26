@@ -15,12 +15,12 @@
     <!-- UIkit JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.42/js/uikit.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.42/js/uikit-icons.min.js"></script>
-    <script src="dd-web-app/js/solclientjs-10.0.0/lib/solclient-debug.js"></script>
-    <script src="dd-web-app/js/solpubsub.js"></script>
-    <script src="dd-web-app/js/env.js"></script>
+    <script src="js/solclientjs-10.0.0/lib/solclient-debug.js"></script>
+    <script src="js/solpubsub.js"></script>
+    <script src="js/env.js"></script>
     <style>
         html {
-            background: url(./dd-web-app/images/demo16.jpg) no-repeat center center fixed;
+            background: url(./images/demo16.jpg) no-repeat center center fixed;
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
@@ -46,30 +46,28 @@
 
           // assign buttons to the solPubSub functions
           document.getElementById("join").addEventListener("click", function () {
-            solPubSub.request('dd/t/join', document.getElementById("playerName").value);
+              let pName = document.getElementById("playerName");
+              if (pName.value) {
+                  solPubSub.request('dd/t/join', pName.value);
+              } else {
+                  pName.addClass('uk-form-danger');
+              }
           }); 
         };
       </script>
 </head>
 
 <body>
-    <div uk-grid>
-        <div class="uk-width-1-4"></div>
-        <div class="uk-width-2-4">
-
-            <div class="uk-card uk-card-body uk-card-secondary uk-position-center">
-                <img class="uk-align-center uk-background-default" width="250" src="./dd-web-app/images/solace-logo-site-header.png">
-                <h3 class="uk-card-title uk-text-warning">Solace Destruction Derby</h3>
-                <form>
-                    <div class="uk-margin">
-                        <input id="playerName" class="uk-input uk-form-large" type="text" placeholder="Enter player name">
-                    </div>
-                </form>
-                <button id="join" class="uk-button uk-button-default uk-align-center">Play Game!</button>
-            </div>
+        <div class="uk-container uk-container-small uk-background-secondary uk-align-center">
+            <img class="uk-align-center uk-background-default" width="250" src="./images/solace-logo-site-header.png">
+            <h3 class="uk-text-warning uk-align-center">Solace Destruction Derby</h3>
+            <form>
+                <div class="uk-margin">
+                    <input id="playerName" class="uk-input uk-form-large" type="text" placeholder="Enter player name">
+                </div>
+            </form>
+            <button id="join" class="uk-button uk-button-primary uk-align-center">Play Game!</button>
         </div>
-        <div class="uk-width-1-4"></div>
-    </div>
 </body>
 
 </html>
