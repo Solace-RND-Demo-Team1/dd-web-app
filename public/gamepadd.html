@@ -18,6 +18,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/nipplejs/0.6.8/nipplejs.min.js"></script>
     <script src="dd-web-app/js/solclientjs-10.0.0/lib/solclient-debug.js"></script>
     <script src="dd-web-app/js/solpubsub.js"></script>
+    <script src="dd-web-app/js/helpers.js"></script>
     <script src="dd-web-app/js/env.js"></script>
     <script>
         var solPubSub = null;
@@ -85,7 +86,7 @@
         }).on('plain:up plain:left plain:down plain:right',
             function(evt, data) {
                 console.log(evt.type);
-                solPubSub.publish(evt.type, 'dd/t/active/blue');
+                processEvent(data);
         });
     </script>
 </body>

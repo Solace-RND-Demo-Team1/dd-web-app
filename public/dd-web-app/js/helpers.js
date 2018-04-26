@@ -7,3 +7,17 @@ function updatePlayers(playersArray) {
     });
     console.log(players.length);
 }
+
+function processEvent(truckData) {
+    let steering = truckData.instance.frontPosition.x / 50.0;
+    let accel = truckData.instance.frontPosition.y / 50.0;
+    let truck = 1;
+    let positionData = {
+        truckNum: truck,
+        steering: steering,
+        accel: accel,
+        brake: 0,
+        bump: 0
+    }
+    solPubSub.publish(JSON.stringify(positionData), 'dd/t/active/1');
+}

@@ -187,6 +187,7 @@ var SolPubSub = function () {
             document.location.href = 'dd-lobby.html';
         } else if (response == 'DUP_NAME') {
             console.log('dup');
+            document.getElementById("playerName").classList.add('uk-form-danger');
             UIkit.notification('That name is already taken. Choose another.', {status: 'danger'});
         } else {
             updatePlayers(response);
@@ -196,6 +197,7 @@ var SolPubSub = function () {
     // Callback for request failures
     solPubSub.requestFailedCb = function (session, event) {
         solPubSub.log('Request failure: ' + event.toString());
+        UIkit.notification('Cannot contact game lobby. Please try again later.', {status: 'danger'});
     };
 
     // Gracefully disconnects from Solace message router
