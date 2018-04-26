@@ -12,12 +12,19 @@ function processEvent(truckData) {
     let steering = truckData.instance.frontPosition.x / 50.0;
     let accel = truckData.instance.frontPosition.y / 50.0;
     let truck = 1;
-    let positionData = {
+    positionData = {
         truckNum: truck,
         steering: steering,
         accel: accel,
         brake: 0,
         bump: 0
     }
-    solPubSub.publish(JSON.stringify(positionData), 'dd/t/active/1');
+    
+}
+
+function eventLoop() {
+    setTimeout(function () {
+        solPubSub.publish(JSON.stringify(positionData), 'dd/t/active/1');
+        eventLoop();
+    }, 100);    
 }

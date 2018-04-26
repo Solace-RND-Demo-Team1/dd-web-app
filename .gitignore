@@ -1,2 +1,3 @@
 node_modules/
 public/dd-web-app/js/env.js
+public/dd-controller/env.js

@@ -77,16 +77,18 @@
 
     <script>
         var el = document.getElementById('jpad');
-        console.log(el);
+        var positionData = {};
         var jpad = nipplejs.create({
             zone: el,
             mode: 'static',
             position: { left: '50%', top: '50%' },
             color: 'yellow'
-        }).on('plain:up plain:left plain:down plain:right',
+        }).on('move plain:up plain:left plain:down plain:right',
             function(evt, data) {
-                console.log(evt.type);
                 processEvent(data);
+        }).on('start', 
+            function() {
+                eventLoop();
         });
     </script>
 </body>
