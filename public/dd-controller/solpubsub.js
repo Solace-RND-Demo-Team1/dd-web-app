@@ -102,7 +102,7 @@ var SolPubSub = function () {
                 console.log(whichTruck[3]);
                 let truck = whichTruck[3];
                 var truckEvent = JSON.parse(message.getBinaryAttachment());
-                moveCar(truck, truckEvent.steering, truckEvent.accel, 0, 0);
+                moveCar(truck, truckEvent.steering, truckEvent.accel, 0, truckEvent.bump);
             }            
         });
 

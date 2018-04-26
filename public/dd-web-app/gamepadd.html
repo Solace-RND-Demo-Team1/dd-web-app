@@ -69,6 +69,12 @@
         <div class="uk-width-2-4">
             <div class="uk-card uk-card-body uk-card-secondary uk-position-center cbox">
                 <div id="jpad"></div>
+                <div>                   
+                   <button id="jump" class="uk-button uk-button-primary uk-align-center">Jump</button>
+                   <!--
+                   <button id="stop" class="uk-button uk-button-primary uk-align-center">Stop</button> 
+                   -->
+                </div>
             </div>
             <button id="truck1" class="uk-button uk-button-primary uk-align-center">Play Truck #1</button>
             <button id="truck2" class="uk-button uk-button-primary uk-align-center">Play Truck #2</button>
@@ -80,18 +86,25 @@
         var el = document.getElementById('jpad');
         var whichTruck = 1;
         var positionData = {};
+        var globalEventLoop;
         document.getElementById('truck1').addEventListener('click', function () {
             whichTruck = 0;
         });
         document.getElementById('truck2').addEventListener('click', function () {
             whichTruck = 1;
         });
+        // document.getElementById('stop').addEventListener('click', function () {
+        //     stopTruck();
+        // });
+        document.getElementById('jump').addEventListener('click', function () {
+            jumpTruck();
+        });
         var jpad = nipplejs.create({
             zone: el,
             mode: 'static',
             position: { left: '50%', top: '50%' },
             color: 'yellow'
-        }).on('move plain:up plain:left plain:down plain:right',
+        }).on('move',
             function(evt, data) {
                 processEvent(whichTruck, data);
         }).on('start', 
