@@ -8,10 +8,9 @@ function updatePlayers(playersArray) {
     console.log(players.length);
 }
 
-function processEvent(truckData) {
+function processEvent(truck, truckData) {
     let steering = truckData.instance.frontPosition.x / 50.0;
-    let accel = truckData.instance.frontPosition.y / 50.0;
-    let truck = 1;
+    let accel = (truckData.instance.frontPosition.y / 50.0) * -1;
     positionData = {
         truckNum: truck,
         steering: steering,
@@ -19,12 +18,11 @@ function processEvent(truckData) {
         brake: 0,
         bump: 0
     }
-    
 }
 
 function eventLoop() {
     setTimeout(function () {
-        solPubSub.publish(JSON.stringify(positionData), 'dd/t/active/1');
+        solPubSub.publish(JSON.stringify(positionData), 'dd/t/active/' + whichTruck);
         eventLoop();
     }, 100);    
 }

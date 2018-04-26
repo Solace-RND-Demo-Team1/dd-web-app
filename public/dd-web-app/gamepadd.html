@@ -67,17 +67,25 @@
     <div uk-grid>
         <div class="uk-width-1-4"></div>
         <div class="uk-width-2-4">
-
             <div class="uk-card uk-card-body uk-card-secondary uk-position-center cbox">
                 <div id="jpad"></div>
             </div>
+            <button id="truck1" class="uk-button uk-button-primary uk-align-center">Play Truck #1</button>
+            <button id="truck2" class="uk-button uk-button-primary uk-align-center">Play Truck #2</button>
         </div>
         <div class="uk-width-1-4"></div>
     </div>
 
     <script>
         var el = document.getElementById('jpad');
+        var whichTruck = 1;
         var positionData = {};
+        document.getElementById('truck1').addEventListener('click', function () {
+            whichTruck = 0;
+        });
+        document.getElementById('truck2').addEventListener('click', function () {
+            whichTruck = 1;
+        });
         var jpad = nipplejs.create({
             zone: el,
             mode: 'static',
@@ -85,10 +93,20 @@
             color: 'yellow'
         }).on('move plain:up plain:left plain:down plain:right',
             function(evt, data) {
-                processEvent(data);
+                processEvent(whichTruck, data);
         }).on('start', 
             function() {
                 eventLoop();
+        }).on('stop', 
+            function() {
+                console.log('joystick stop event');
+                positionData = {
+                truckNum: whichTruck,
+                steering: 0,
+                accel: 0,
+                brake: 0,
+                bump: 0
+            }
         });
     </script>
 </body>
