@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <link rel="stylesheet" type="text/css"  href="css/gamepad.css">
+    <title>Demolish Derby Gamepad</title>
+    <script src="lib/solclient-debug.js"></script>
+    <script>
+
+      var subscriber = {};
+
+      connectToSolace();
+
+      var factoryProps;
+
+      function sendVehicleContrl(controlMessage) {
+        var message = solace.SolclientFactory.createMessage();
+        message.setDestination(solace.SolclientFactory.createTopicDestination("connectedcar"));
+        message.setBinaryAttachment(JSON.stringify(controlMessage));
+        message.setDeliveryMode(solace.MessageDeliveryModeType.DIRECT);
+        if (subscriber.session !== null) {
+            try {
+                subscriber.session.send(message);
+                console.log('Message published.');
+            } catch (error) {
+                console.log(error.toString());
+            }
+        } else {
+            console.log('Cannot publish because not connected to Solace message router.');
+        }
+      }
+
+      function moveForward() {
+        var vehicleCtrlMsg = {
+          carNum : "1",
+          steering: "0.0",
+          accel: "1.0",
+          breaking: "0.0",
+          bump: "0"
+        };
+        sendVehicleContrl(vehicleCtrlMsg);
+      }
+
+      function moveBackward() {
+        var vehicleCtrlMsg = {
+          carNum : "1",
+          steering: "0.0",
+          accel: "-1.0",
+          breaking: "0.0",
+          bump: "0"
+        };
+        sendVehicleContrl(vehicleCtrlMsg);
+      }
+
+      function moveLeft() {
+        var vehicleCtrlMsg = {
+          carNum : "1",
+          steering: "-1.0",
+          accel: "1.0",
+          breaking: "0.0",
+          bump: "0"
+        };
+        sendVehicleContrl(vehicleCtrlMsg);
+      }
+     
+     function moveRight() {
+        var vehicleCtrlMsg = {
+          carNum : "1",
+          steering: "1.0",
+          accel: "1.0",
+          breaking: "0.0",
+          bump: "0"
+        };
+        sendVehicleContrl(vehicleCtrlMsg);
+      }
+
+      function connectToSolace() {
+        factoryProps = new solace.SolclientFactoryProperties();
+
+        factoryProps.profile = solace.SolclientFactoryProfiles.version10;
+        solace.SolclientFactory.init(factoryProps);
+        solace.SolclientFactory.setLogLevel(solace.LogLevel.DEBUG);
+
+        // create session
+        subscriber.session = solace.SolclientFactory.createSession({
+            // solace.SessionProperties
+            url:      "ws://mr-xy4p7v1yh.messaging.solace.cloud:20451",
+            vpnName:  "msgvpn-80remev8lkl",
+            userName: "solace-cloud-client",
+            password: "ki6jjpjjc09fr95215dvmvjc55",
+        });
+
+        subscriber.session.on(solace.SessionEventCode.UP_NOTICE, function (sessionEvent) {
+            console.log('=== Successfully connected and ready to subscribe. ===');
+
+            subscriber.session.subscribe(
+                  solace.SolclientFactory.createTopic("player/a"),
+                  true,
+                  "player/a",
+                  10000
+              );
+        });
+
+        subscriber.session.on(solace.SessionEventCode.SUBSCRIPTION_ERROR, function (sessionEvent) {
+            console.log('Cannot subscribe to topic: ' + sessionEvent.correlationKey);
+          });
+        subscriber.session.on(solace.SessionEventCode.SUBSCRIPTION_OK, function (sessionEvent) {
+            if (subscriber.subscribed) {
+                subscriber.subscribed = false;
+                console.log('Successfully unsubscribed from topic: ' + sessionEvent.correlationKey);
+            } else {
+                subscriber.subscribed = true;
+                console.log('Successfully subscribed to topic: ' + sessionEvent.correlationKey);
+                console.log('=== Ready to receive messages. ===');
+            }
+        });
+
+        subscriber.session.on(solace.SessionEventCode.MESSAGE, function (message) {
+            var controlMsg = JSON.parse(message.getBinaryAttachment());
+            console.log(
+              "Received player control: " 
+              + JSON.stringify(controlMsg)
+              );
+        });
+
+        // define session event listeners
+            /*...see section Session Events...*/
+        // define message event listener
+            /*...see section Receiving a message...*/
+        // connect the session
+        try {
+            subscriber.session.connect();
+        } catch (error) {
+          debugger;
+            console.log(error.toString());
+        }
+      }
+
+      function setupCanvas() {
+        // Set up the canvas
+        var canvas = document.getElementById("sig-canvas");
+        var ctx = canvas.getContext("2d");
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWith = 2;
+
+
+        // Set up touch events for mobile, etc
+        canvas.addEventListener("touchstart", function (e) {
+          mousePos = getTouchPos(canvas, e);
+          var touch = e.touches[0];
+          var mouseEvent = new MouseEvent("mousedown", {
+            clientX: touch.clientX,
+            clientY: touch.clientY
+          });
+          canvas.dispatchEvent(mouseEvent);
+        }, false);
+
+        canvas.addEventListener("touchend", function (e) {
+          var mouseEvent = new MouseEvent("mouseup", {});
+          canvas.dispatchEvent(mouseEvent);
+        }, false);
+        /*
+        canvas.addEventListener("touchmove", function (e) {
+          var touch = e.touches[0];
+          var mouseEvent = new MouseEvent("mousemove", {
+            clientX: touch.clientX,
+            clientY: touch.clientY
+          });
+          canvas.dispatchEvent(mouseEvent);
+        }, false);
+        */
+
+        // Get the position of a touch relative to the canvas
+        function getTouchPos(canvasDom, touchEvent) {
+          var rect = canvasDom.getBoundingClientRect();
+
+          var xPos = touchEvent.touches[0].clientX - rect.left;
+          var yPos = touchEvent.touches[0].clientY - rect.top;
+
+          var vertRange = yPos / window.innerHeight;
+
+          if (vertRange < 0.3 ) {
+            moveForward();
+          } else if (vertRange > 0.6 ) {
+            moveBackward();
+          }
+
+          return {
+            x: xPos,
+            y: yPos
+          };
+        }
+
+        function resizeCanvas() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas, false);
+        window.addEventListener('orientationchange', resizeCanvas, false);
+        resizeCanvas();
+      }
+
+    </script>
+
+<!--
+    <table width=100%>
+    <tr><td span=3 style = "text-align: center;"><input type=button value="Forward" onClick="moveForward()"></td></tr>
+    <tr>
+      <td><input type="button" value="Left" onClick="moveLeft()"></td>
+      <td></td>
+      <td><input type="button" value="Right" onClick="moveRight()"></td>
+    </tr>
+    <tr><td span=3 style = "text-align: center;"><input type=button value="Backward" onClick="moveBackward()"></td></tr>
+    </table>
+-->
+
+  </head>
+  
+  <body onLoad="setupCanvas()">
+    <canvas id="sig-canvas">
+    HTML5 Canvas Not Supported!
+    </canvas>
+  </body>
+  
+</html>

@@ -1,0 +1,10 @@
+body {
+    overflow:hidden; 
+    background: #d7d7d7;
+    margin:0;
+    padding:0;
+}
+
+button {
+    touch-action: manipulation;
+}
