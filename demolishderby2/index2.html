@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Solace Demolish Derby</title>
+    <script src="Build/UnityLoader.js"></script>
+
+    <script src="lib/solclient-debug.js"></script>
+    <script>
+
+      // Handle Events Reported by Unity Game
+      function killPlayer(playerId) {
+        window.alert("Player : " + playerId + " killed !");
+      }
+      function gameOptionsConfigured(maxPlayers) {
+        window.alert("Game Options: Max Players = " + maxPlayers);
+      }
+      function enteredGameLobby() {
+        window.alert("Entering Game Lobby");
+      }
+      function gameStarted(numStartingPlayers) {
+        window.alert("Game Started with " + numStartingPlayers + " players!");
+      }
+      function playerSubstituted(playerId, colour) {
+        window.alert("Player " + playerId + " substitued / Player Colour: " + colour);
+      }
+      function playerKilled(playerId) {
+        window.alert("Player : " + playerId + " killed !");
+      }
+
+      var gameInstance = UnityLoader.instantiate("gameContainer", "Build/demolishderby2.json");
+
+      connectToSolace();
+
+      var factoryProps;
+
+      function MoveCar(carNum, s, a, footbreak, bump) {
+        var params = [];
+        params[0] = parseFloat(s);
+        params[1] = parseFloat(a);
+        params[2] = parseFloat(footbreak);
+        params[3] = parseFloat(bump);
+        
+        var dataStruct = 
+          + params[0] + "," 
+          + params[1] + "," 
+          + params[2] + "," 
+          + params[3];
+
+        gameInstance.SendMessage('Vehicle-' + carNum, 'MoveVehicle', dataStruct);
+      }
+
+      function DisplayMessage(text) {
+        gameInstance.SendMessage('GameLevel', 'DisplayBillboardText', text); 
+      }
+
+
+      function connectToSolace() {
+        factoryProps = new solace.SolclientFactoryProperties();
+
+        factoryProps.profile = solace.SolclientFactoryProfiles.version10;
+        solace.SolclientFactory.init(factoryProps);
+        solace.SolclientFactory.setLogLevel(solace.LogLevel.DEBUG);
+
+        // create session
+        var subscriber = {};
+        subscriber.session = solace.SolclientFactory.createSession({
+            // solace.SessionProperties
+            url:      "ws://mr-xy4p7v1yh.messaging.solace.cloud:20451",
+            vpnName:  "msgvpn-80remev8lkl",
+            userName: "solace-cloud-client",
+            password: "ki6jjpjjc09fr95215dvmvjc55",
+        });
+
+        subscriber.session.on(solace.SessionEventCode.UP_NOTICE, function (sessionEvent) {
+            console.log('=== Successfully connected and ready to subscribe. ===');
+
+            subscriber.session.subscribe(
+                  solace.SolclientFactory.createTopic("connectedcar"),
+                  true,
+                  "connectedcar",
+                  10000
+              );
+        });
+
+        subscriber.session.on(solace.SessionEventCode.SUBSCRIPTION_ERROR, function (sessionEvent) {
+            console.log('Cannot subscribe to topic: ' + sessionEvent.correlationKey);
+          });
+        subscriber.session.on(solace.SessionEventCode.SUBSCRIPTION_OK, function (sessionEvent) {
+            if (subscriber.subscribed) {
+                subscriber.subscribed = false;
+                console.log('Successfully unsubscribed from topic: ' + sessionEvent.correlationKey);
+            } else {
+                subscriber.subscribed = true;
+                console.log('Successfully subscribed to topic: ' + sessionEvent.correlationKey);
+                console.log('=== Ready to receive messages. ===');
+            }
+        });
+
+        subscriber.session.on(solace.SessionEventCode.MESSAGE, function (message) {
+            
+            DisplayMessage(message.getBinaryAttachment());
+
+            controlMsg = JSON.parse(message.getBinaryAttachment());
+
+            console.log(
+              "Received vehicle control: " 
+              + controlMsg
+              );
+
+            MoveCar(
+              controlMsg.carNum
+              , controlMsg.steering
+              , controlMsg.accel
+              , controlMsg.breaking
+              , controlMsg.bump);
+        });
+
+        // define session event listeners
+            /*...see section Session Events...*/
+        // define message event listener
+            /*...see section Receiving a message...*/
+        // connect the session
+        try {
+            subscriber.session.connect();
+        } catch (error) {
+          debugger;
+            console.log(error.toString());
+        }
+      }
+    </script>
+
+  </head>
+  
+  <body>
+    <div id="gameContainer" style="width: 1400px; height: 900px; margin: auto"></div>
+  </body>
+  
+</html>
