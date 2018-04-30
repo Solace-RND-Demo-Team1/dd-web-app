@@ -89,8 +89,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="player in players">
-                            <td>{{ player.position }}</td>
+                        <tr v-for="player, index in players">
+                            <td>{{ index + 1 }}</td>
                             <td>{{ player.name }}</td>
                             <td>{{ player.status }}</td>
                         </tr>

@@ -28,6 +28,10 @@ function gameOptionsConfigured(maxPlayers) {
 }
 function enteredGameLobby() {
   console.log("Entering Game Lobby");
+  
+}
+function gameStarted(numStartingPlayers) {
+  console.log('Game started with: ' + numStartingPlayers);
   var playerToActivate;
   var numStartingPlayers = maxStartingPlayers;
 
@@ -40,7 +44,7 @@ function enteredGameLobby() {
     console.log(players);
     let params = [];
     console.log('activating player: ' + players[0].name);
-    params[0] = i;
+    params[0] = i.toString();
     // Player Gamer Tag
     params[1] = players[0].name;
     // Player Score
@@ -53,9 +57,6 @@ function enteredGameLobby() {
 
     gameInstance.SendMessage('GameLevel', 'SubstitutePlayer', dataStruct);
   }
-}
-function gameStarted(numStartingPlayers) {
-  console.log('Game started with: ' + numStartingPlayers);
 }
 function playerSubstituted(playerId, colour) {
   console.log("Player " + playerId + " substitued / Player Colour: " + colour);
