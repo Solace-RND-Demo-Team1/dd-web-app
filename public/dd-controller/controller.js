@@ -15,15 +15,20 @@ function moveCar(carNum, s, a, footbreak, bump) {
     gameInstance.SendMessage('Vehicle-' + carNum, 'MoveVehicle', dataStruct);
   }
 
+function displayMessage(text) {
+  gameInstance.SendMessage('GameLevel', 'DisplayBillboardText', text); 
+}
 // Handle Events Reported by Unity Game
 function killPlayer(playerId) {
   window.alert("Player : " + playerId + " killed !");
 }
 function gameOptionsConfigured(maxPlayers) {
-  window.alert("Game Options: Max Players = " + maxPlayers);
+  console.log("Game Options: Max Players = " + maxPlayers);
 }
 function enteredGameLobby() {
-  window.alert("Entering Game Lobby");
+  console.log("Entering Game Lobby");
+  solPubSub.subscribe('dd/t/join');
+  solPubSub.subscribe('dd/t/lobby/req');
 }
 function gameStarted(numStartingPlayers) {
   window.alert("Game Started with " + numStartingPlayers + " players!");

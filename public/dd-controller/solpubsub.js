@@ -90,7 +90,9 @@ var SolPubSub = function () {
                         position: position,
                         status: "waiting"
                     };
-                    players.splice(position - 1, 1, joinerRow);;
+                    console.log(joinerName + ' joined');
+                    displayMessage(joinerName + ' joined');
+                    players.splice(position - 1, 1, joinerRow);
                     solPubSub.reply(message, 'SUCCESS');
                     solPubSub.publish(JSON.stringify(players), 'dd/t/lobby');
                 } else {
@@ -123,7 +125,7 @@ var SolPubSub = function () {
             try {
                 solPubSub.session.subscribe(
                     solace.SolclientFactory.createTopicDestination(topicName),
-                    false, // generate confirmation when subscription is added successfully
+                    true, // generate confirmation when subscription is added successfully
                     topicName, // use topic name as correlation key
                     10000 // 10 seconds timeout for this operation
                 );
