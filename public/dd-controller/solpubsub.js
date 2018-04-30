@@ -42,6 +42,8 @@ var SolPubSub = function () {
         // define session event listeners
         solPubSub.session.on(solace.SessionEventCode.UP_NOTICE, function (sessionEvent) {
             solPubSub.log('=== Successfully connected. ===');
+            solPubSub.subscribe('dd/t/join');
+            solPubSub.subscribe('dd/t/lobby/req');
         });
         solPubSub.session.on(solace.SessionEventCode.CONNECT_FAILED_ERROR, function (sessionEvent) {
             solPubSub.log('Connection failed to the message router: ' + sessionEvent.infoStr +

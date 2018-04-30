@@ -24,17 +24,44 @@ function killPlayer(playerId) {
 }
 function gameOptionsConfigured(maxPlayers) {
   console.log("Game Options: Max Players = " + maxPlayers);
+  maxStartingPlayers = maxPlayers;
 }
 function enteredGameLobby() {
   console.log("Entering Game Lobby");
-  solPubSub.subscribe('dd/t/join');
-  solPubSub.subscribe('dd/t/lobby/req');
+  var playerToActivate;
+  var numStartingPlayers = maxStartingPlayers;
+
+  if (players.length < maxStartingPlayers) {
+    numStartingPlayers = players.length;
+  }
+  console.log("Game Started with " + numStartingPlayers + " players!");
+
+  for (i=0; i < numStartingPlayers; i++) {
+    console.log(players);
+    let params = [];
+    console.log('activating player: ' + players[0].name);
+    params[0] = i;
+    // Player Gamer Tag
+    params[1] = players[0].name;
+    // Player Score
+    params[2] = "0";
+    
+    var dataStruct = 
+      + params[0] + "," 
+      + params[1] + "," 
+      + params[2];
+
+    gameInstance.SendMessage('GameLevel', 'SubstitutePlayer', dataStruct);
+  }
 }
 function gameStarted(numStartingPlayers) {
-  window.alert("Game Started with " + numStartingPlayers + " players!");
+  console.log('Game started with: ' + numStartingPlayers);
 }
 function playerSubstituted(playerId, colour) {
-  window.alert("Player " + playerId + " substitued / Player Colour: " + colour);
+  console.log("Player " + playerId + " substitued / Player Colour: " + colour);
+  solPubSub.publish('dd/t/active/' + i + '||' + colour , 'dd/t/lobby/' + playerId);
+  players.splice(0, 1);
+  solPubSub.publish(JSON.stringify(players), 'dd/t/lobby');
 }
 function playerKilled(playerId) {
   window.alert("Player : " + playerId + " killed !");
