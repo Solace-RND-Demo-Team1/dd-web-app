@@ -63,3 +63,11 @@ function jumpTruck() {
     }
     solPubSub.publish(JSON.stringify(positionData), 'dd/t/active/' + whichTruck);
 }
+
+function makePlayerActive(topicAndColor) {
+    console.log(topicAndColor);
+    var params = topicAndColor.split('||');
+    // index 0 is the vehicle id for the assigned vehicle
+    // index 1 is the colour assigned
+    window.location.href = 'gamepadd.html?t=' + params[0] + '&c=' + params[1];
+}

@@ -76,26 +76,17 @@
                    -->
                 </div>
             </div>
-            <button id="truck1" class="uk-button uk-button-primary uk-align-center">Play Truck #1</button>
-            <button id="truck2" class="uk-button uk-button-primary uk-align-center">Play Truck #2</button>
         </div>
         <div class="uk-width-1-4"></div>
     </div>
 
     <script>
         var el = document.getElementById('jpad');
-        var whichTruck = 1;
         var positionData = {};
         var globalEventLoop;
-        document.getElementById('truck1').addEventListener('click', function () {
-            whichTruck = 0;
-        });
-        document.getElementById('truck2').addEventListener('click', function () {
-            whichTruck = 1;
-        });
-        // document.getElementById('stop').addEventListener('click', function () {
-        //     stopTruck();
-        // });
+        var queryParams = new URLSearchParams(window.location.search);
+        var whichTruck = queryParams.get('t');
+        var color = queryParams.get('c');
         document.getElementById('jump').addEventListener('click', function () {
             jumpTruck();
         });

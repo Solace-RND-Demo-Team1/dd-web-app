@@ -71,8 +71,12 @@ var SolPubSub = function () {
         solPubSub.session.on(solace.SessionEventCode.MESSAGE, function (message) {
             solPubSub.log('Received message: "' + message.getBinaryAttachment() + '", details:\n' +
                 message.dump());
-
-            updatePlayers(message.getBinaryAttachment());                        
+            let destination = message.getDestination().getName();
+            if (destination === 'dd/t/lobby') {
+                updatePlayers(message.getBinaryAttachment());
+            } else if (destination.startsWith('dd/t/lobby/')) {
+                makePlayerActive(message.getBinaryAttachment());
+            }
         });
 
         solPubSub.connectToSolace();
@@ -182,10 +186,10 @@ var SolPubSub = function () {
     solPubSub.replyReceivedCb = function (session, message) {
         solPubSub.log('Received reply: "' + message.getBinaryAttachment() + '"' +
             ' details:\n' + message.dump());
-        let response = message.getBinaryAttachment();
-        if (response === 'SUCCESS') {
+        let response = message.getBinaryAttachment().split('||');
+        if (response[0] === 'SUCCESS') {
             console.log('redirect');
-            document.location.href = 'dd-lobby.html?';
+            document.location.href = 'dd-lobby.html?' + response[1];
         } else if (response == 'DUP_NAME') {
             console.log('dup');
             document.getElementById("playerName").classList.add('uk-form-danger');

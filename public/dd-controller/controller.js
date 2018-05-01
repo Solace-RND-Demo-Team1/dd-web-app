@@ -59,7 +59,7 @@ function gameStarted(numStartingPlayers) {
 }
 function playerSubstituted(playerId, colour) {
   let gamerTag = activePlayers[playerId].split(',');
-  solPubSub.publish('dd/t/active/' + gamerTag[1] + '||' + colour , 'dd/t/lobby/' + playerId);
+  solPubSub.publish(playerId + '||' + colour , 'dd/t/lobby/' + gamerTag[1]);
   players.splice(0, 1);
   solPubSub.publish(JSON.stringify(players), 'dd/t/lobby');
 }

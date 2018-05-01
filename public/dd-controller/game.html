@@ -30,9 +30,9 @@
                 solace.SolclientFactory.setLogLevel(solace.LogLevel.WARN);
                 solPubSub = new SolPubSub();
                 solPubSub.connect();
-                // solPubSub.session.on(solace.SessionEventCode.UP_NOTICE, function (sessionEvent) {
-                //     solPubSub.subscribe('dd/t/active/*');
-                // });
+                solPubSub.session.on(solace.SessionEventCode.UP_NOTICE, function (sessionEvent) {
+                    solPubSub.subscribe('dd/t/active/*');
+                });
             };
         </script>        
     </head>
