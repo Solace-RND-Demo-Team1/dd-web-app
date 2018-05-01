@@ -65,4 +65,18 @@ function playerSubstituted(playerId, colour) {
 }
 function playerKilled(playerId) {
   window.alert("Player : " + playerId + " killed !");
+  let params = [];
+    params[0] = playerId.toString();
+    // Player Gamer Tag
+    params[1] = players[0].name;
+    // Player Score
+    params[2] = "0";
+    
+    var dataStruct = 
+      + params[0] + "," 
+      + params[1] + "," 
+      + params[2];
+
+    activePlayers[playerId] = dataStruct;
+    gameInstance.SendMessage('GameLevel', 'SubstitutePlayer', dataStruct);
 }
