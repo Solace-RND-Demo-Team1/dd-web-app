@@ -126,7 +126,7 @@ var SolPubSub = function () {
             try {
                 solPubSub.session.subscribe(
                     solace.SolclientFactory.createTopicDestination(topicName),
-                    true, // generate confirmation when subscription is added successfully
+                    false, // generate confirmation when subscription is added successfully
                     topicName, // use topic name as correlation key
                     10000 // 10 seconds timeout for this operation
                 );

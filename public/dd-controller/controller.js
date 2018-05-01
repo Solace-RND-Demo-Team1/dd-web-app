@@ -64,7 +64,9 @@ function playerSubstituted(playerId, colour) {
   solPubSub.publish(JSON.stringify(players), 'dd/t/lobby');
 }
 function playerKilled(playerId) {
-  window.alert("Player : " + playerId + " killed !");
+  console.log("Player : " + playerId + " killed !");
+  let killedPlayer = activePlayers[playerId].split(',');
+  solPubSub.publish('**KILLED**', 'dd/t/lobby/' + killedPlayer[1]);
   let params = [];
     params[0] = playerId.toString();
     // Player Gamer Tag

@@ -71,3 +71,8 @@ function makePlayerActive(topicAndColor) {
     // index 1 is the colour assigned
     window.location.href = 'gamepadd.html?t=' + params[0] + '&c=' + params[1];
 }
+
+function makePlayerInactive(topic) {
+    solPubSub.disconnect();
+    document.location.href = 'gameover.html';
+}

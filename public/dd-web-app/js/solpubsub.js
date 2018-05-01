@@ -75,7 +75,12 @@ var SolPubSub = function () {
             if (destination === 'dd/t/lobby') {
                 updatePlayers(message.getBinaryAttachment());
             } else if (destination.startsWith('dd/t/lobby/')) {
-                makePlayerActive(message.getBinaryAttachment());
+                let attachment = message.getBinaryAttachment();
+                if (attachment === '**KILLED**') {
+                    makePlayerInactive();
+                } else {
+                    makePlayerActive(attachment);
+                }
             }
         });
 
