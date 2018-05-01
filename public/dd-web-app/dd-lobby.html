@@ -68,6 +68,7 @@
 
             solPubSub.session.on(solace.SessionEventCode.UP_NOTICE, function (sessionEvent) {
                 solPubSub.subscribe('dd/t/lobby');
+                solPubSub.subscribe('dd/t/lobby/' + window.location.search);
                 solPubSub.request('dd/t/lobby/req', 'SEND_LOBBY');
             });            
         };

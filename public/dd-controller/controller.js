@@ -41,9 +41,7 @@ function gameStarted(numStartingPlayers) {
   console.log("Game Started with " + numStartingPlayers + " players!");
 
   for (i=0; i < numStartingPlayers; i++) {
-    console.log(players);
     let params = [];
-    console.log('activating player: ' + players[0].name);
     params[0] = i.toString();
     // Player Gamer Tag
     params[1] = players[0].name;
@@ -55,12 +53,13 @@ function gameStarted(numStartingPlayers) {
       + params[1] + "," 
       + params[2];
 
+    activePlayers.push(dataStruct);
     gameInstance.SendMessage('GameLevel', 'SubstitutePlayer', dataStruct);
   }
 }
 function playerSubstituted(playerId, colour) {
-  console.log("Player " + playerId + " substitued / Player Colour: " + colour);
-  solPubSub.publish('dd/t/active/' + i + '||' + colour , 'dd/t/lobby/' + playerId);
+  let gamerTag = activePlayers[playerId].split(',');
+  solPubSub.publish('dd/t/active/' + gamerTag[1] + '||' + colour , 'dd/t/lobby/' + playerId);
   players.splice(0, 1);
   solPubSub.publish(JSON.stringify(players), 'dd/t/lobby');
 }

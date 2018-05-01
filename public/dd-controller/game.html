@@ -17,6 +17,7 @@
         <script>
             var gameInstance = UnityLoader.instantiate("gameContainer", "gamefiles/demolishderby2.json");
             var players = [];
+            var activePlayers = [];
             var maxStartingPlayers;
             var solPubSub = null;
             window.onload = function () {
@@ -29,9 +30,6 @@
                 solace.SolclientFactory.setLogLevel(solace.LogLevel.WARN);
                 solPubSub = new SolPubSub();
                 solPubSub.connect();
-
-
-
                 // solPubSub.session.on(solace.SessionEventCode.UP_NOTICE, function (sessionEvent) {
                 //     solPubSub.subscribe('dd/t/active/*');
                 // });

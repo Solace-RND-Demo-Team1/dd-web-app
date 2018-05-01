@@ -71,6 +71,7 @@ var SolPubSub = function () {
         solPubSub.session.on(solace.SessionEventCode.MESSAGE, function (message) {
             solPubSub.log('Received message: "' + message.getBinaryAttachment() + '", details:\n' +
                 message.dump());
+
             updatePlayers(message.getBinaryAttachment());                        
         });
 
@@ -184,7 +185,7 @@ var SolPubSub = function () {
         let response = message.getBinaryAttachment();
         if (response === 'SUCCESS') {
             console.log('redirect');
-            document.location.href = 'dd-lobby.html';
+            document.location.href = 'dd-lobby.html?';
         } else if (response == 'DUP_NAME') {
             console.log('dup');
             document.getElementById("playerName").classList.add('uk-form-danger');
