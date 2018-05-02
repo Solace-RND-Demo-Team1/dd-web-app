@@ -30,6 +30,15 @@
     <script>
         var solPubSub = null;
 
+		function joinGame() {
+              let pName = document.getElementById("playerName");
+              if (pName.value) {
+                  solPubSub.request('dd/t/join', pName.value);
+              } else {
+                  pName.classList.add('uk-form-danger');
+              }
+		}
+
         window.onload = function () {
           // Initialize factory with the most recent API defaults
           var factoryProps = new solace.SolclientFactoryProperties();
@@ -45,22 +54,21 @@
           solPubSub.connect();
 
           // assign buttons to the solPubSub functions
-          document.getElementById("join").addEventListener("click", function () {
-              let pName = document.getElementById("playerName");
-              if (pName.value) {
-                  solPubSub.request('dd/t/join', pName.value);
-              } else {
-                  pName.addClass('uk-form-danger');
-              }
-          }); 
-        };
+          document.getElementById("join").addEventListener("click", joinGame);
+		  document.getElementById("playerName").addEventListener("keydown", function(event) {
+		    if (event.which === 13) {
+				event.preventDefault();
+				joinGame();
+			}
+		  }, false);
+		};
       </script>
 </head>
 
 <body>
         <div class="uk-container uk-container-small uk-background-secondary uk-align-center">
             <img class="uk-align-center uk-background-default" width="250" src="./images/solace-logo-site-header.png">
-            <h3 class="uk-text-warning uk-align-center">Solace Destruction Derby</h3>
+            <h3 class="uk-text-warning uk-align-center">aSolace Destruction Derby</h3>
             <form>
                 <div class="uk-margin">
                     <input id="playerName" class="uk-input uk-form-large" type="text" placeholder="Enter player name">

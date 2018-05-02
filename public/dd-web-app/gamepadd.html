@@ -49,7 +49,10 @@
       </script>
     <style>
         html {
-            background: url(./images/demo16.jpg) no-repeat center center fixed;
+            background-image: url(./images/demo16.jpg); 
+            background-repeat: no-repeat;
+            //background-position: center center;
+            //background: #808080 url(./images/demo16.jpg) no-repeat center center fixed;
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
@@ -61,8 +64,8 @@
             position: relative;
             width: 100%;
             height: 100%;
-            left: 5px;
-            top: 100px;
+            left: 0px;
+            top: 0px;
         }
         .cbox {
             width: 300px;
@@ -77,9 +80,9 @@
         <div class="uk-width-1-4"></div>
         <div class="uk-width-2-4">
             <div class="uk-card uk-card-body uk-card-secondary uk-position-center cbox">
-                <div id="jpad"></div>
+                <div id="jpad" class="uk-position-top"></div>
                 <div class="uk-position-bottom">                   
-                   <button id="jump" class="uk-button uk-button-primary uk-align-center">Jump</button>
+                   <button id="jump" class="uk-button uk-button-primary uk-align-center">Jumps</button>
                    <!--
                    <button id="stop" class="uk-button uk-button-primary uk-align-center">Stop</button> 
                    -->
