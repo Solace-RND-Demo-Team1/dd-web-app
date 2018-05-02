@@ -27,25 +27,8 @@
             -o-background-size: cover;
             background-size: cover;
         }
-        table.scroll {
-            width: 100%;
-            border-spacing: 0;
-            border: 2px solid black;
-        }
-
-        table.scroll tbody,
-        table.scroll thead { display: block; }
-
-        thead tr th { 
-            height: 30px;
-            line-height: 30px;
-            /* text-align: left; */
-        }
-
-        table.scroll tbody {
-            height: 500px;
-            overflow-y: auto;
-            overflow-x: hidden;
+        table {
+            width: 80%;
         }
 
     </style>
@@ -77,30 +60,26 @@
 
 <body>
 
-    <div uk-grid>
-        <div class="uk-width-1-4"></div>
-        <div class="uk-width-2-4">
-            <div id="player-rows" class="uk-background-secondary uk-position-center">
-                <table class="scroll uk-table">
-                    <thead>
-                        <tr>
-                            <th>Position</th>
-                            <th>Player Name</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="player, index in players">
-                            <td>{{ index + 1 }}</td>
-                            <td>{{ player.name }}</td>
-                            <td>{{ player.status }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="uk-width-1-4"></div>
+
+    <div id="player-rows" class="uk-background-secondary uk-position-center">
+        <table class="uk-table uk-">
+            <thead>
+                <tr>
+                    <th>Position</th>
+                    <th>Player Name</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="player, index in players">
+                    <td>{{ index + 1 }}</td>
+                    <td>{{ player.name }}</td>
+                    <td>{{ player.status }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+
 
 
     <script>
