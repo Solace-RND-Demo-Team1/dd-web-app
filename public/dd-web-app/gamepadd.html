@@ -60,6 +60,9 @@
             width: 300px;
             height: 400px;
         }
+        #color {
+            background: black;
+        }
     </style>
 </head>
 
@@ -67,12 +70,10 @@
 
 
     <div class="uk-card uk-card-body uk-card-secondary uk-position-center cbox">
+        <div id="color" class="uk-tile uk-align-center"></div>
         <div id="jpad" class="uk-position-top"></div>
         <div class="uk-position-bottom">                   
             <button id="jump" class="uk-button uk-button-primary uk-align-center">JUMP</button>
-            <!--
-            <button id="stop" class="uk-button uk-button-primary uk-align-center">Stop</button> 
-            -->
         </div>
     </div>
 
@@ -80,9 +81,11 @@
         var el = document.getElementById('jpad');
         var positionData = {};
         var globalEventLoop;
-        var queryParams = new URLSearchParams(window.location.search);
-        var whichTruck = queryParams.get('t');
-        var color = queryParams.get('c');
+        var queryParams = window.location.search.substr(1).split("&");
+        var whichTruck = queryParams[0].substr(2);
+        var color = queryParams[1].substr(2);
+        console.log(whichTruck, color);
+        document.getElementById('color').style.background = color;
         document.getElementById('jump').addEventListener('click', function () {
             jumpTruck();
         });
