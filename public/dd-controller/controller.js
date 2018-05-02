@@ -65,9 +65,11 @@ function playerSubstituted(playerId, colour) {
 }
 function playerKilled(playerId) {
   console.log("Player : " + playerId + " killed !");
-  let killedPlayer = activePlayers[playerId].split(',');
-  solPubSub.publish('**KILLED**', 'dd/t/lobby/' + killedPlayer[1]);
-  let params = [];
+  // only sub a new lobby player if there is one
+  if (players.length > 0) {
+    let killedPlayer = activePlayers[playerId].split(',');
+    solPubSub.publish('**KILLED**', 'dd/t/lobby/' + killedPlayer[1]);
+    let params = [];
     params[0] = playerId.toString();
     // Player Gamer Tag
     params[1] = players[0].name;
@@ -81,4 +83,5 @@ function playerKilled(playerId) {
 
     activePlayers[playerId] = dataStruct;
     gameInstance.SendMessage('GameLevel', 'SubstitutePlayer', dataStruct);
+  }
 }
