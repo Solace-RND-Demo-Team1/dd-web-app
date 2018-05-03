@@ -104,10 +104,11 @@
         var bgColours = [purple, darkOrange, blue, lightOrange, yellow, green, grey, white, pink, cyan];
 
         var queryParams = window.location.search.substr(1).split("&");
-        var whichTruck = queryParams[0].substr(2);
-        console.log(whichTruck );
+		// we're passed a 0-based number, but the car images are numbered from 1.
+        var whichTruck = parseInt(queryParams[0].substr(2)) + 1;
         //document.getElementById('color').style.backgroundColor = bgColours[whichTruck-1];
 		var image = 'images/car_03_m' + whichTruck + '.png';
+        console.log(image);
 		document.getElementById('backgroundImage').src = image;
 
         document.getElementById('jump').addEventListener('click', function () {
