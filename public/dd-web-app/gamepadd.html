@@ -69,8 +69,10 @@
 <body>
 
 
-    <div class="uk-card uk-card-body uk-card-secondary uk-position-center cbox">
-        <div id="color" class="uk-tile uk-align-center"></div>
+    <div id="outer" class="uk-card uk-card-body uk-card-secondary uk-position-center cbox">
+        <div id="homeLink" class="uk-align-center">
+			<a href="index.html">Home</a>
+		</div>
         <div id="jpad" class="uk-position-top"></div>
         <div class="uk-position-bottom">                   
             <button id="jump" class="uk-button uk-button-primary uk-align-center">JUMP</button>
@@ -81,11 +83,12 @@
         var el = document.getElementById('jpad');
         var positionData = {};
         var globalEventLoop;
+		var bgColours = [ '#782C87', '#1E5B8A', '#207534' ];
         var queryParams = window.location.search.substr(1).split("&");
         var whichTruck = queryParams[0].substr(2);
-        var color = queryParams[1].substr(2);
-        console.log(whichTruck, color);
-        document.getElementById('color').style.background = color;
+        console.log(whichTruck );
+		document.getElementById('outer').style.backgroundColor = bgColours[0];
+
         document.getElementById('jump').addEventListener('click', function () {
             jumpTruck();
         });

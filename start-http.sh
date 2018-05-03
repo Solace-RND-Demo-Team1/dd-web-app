@@ -1,3 +1,3 @@
 #!/bin/bash
-./node_modules/http-server/bin/http-server -p 8080
+../node_modules/http-server/bin/http-server -p 8080
 
