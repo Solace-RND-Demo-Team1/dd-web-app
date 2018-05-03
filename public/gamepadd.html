@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Solace Team 1 - Destruction Derby</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pulltorefreshjs/0.1.13/pulltorefresh.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl"
+        crossorigin="anonymous"></script>
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.42/css/uikit.min.css" />
+
+    <!-- UIkit JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.42/js/uikit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.42/js/uikit-icons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nipplejs/0.6.8/nipplejs.min.js"></script>
+    <script src="js/solclientjs-10.0.0/lib/solclient-debug.js"></script>
+    <script src="js/solpubsub.js"></script>
+    <script src="js/helpers.js"></script>
+    <script src="js/env.js"></script>
+    <script>
+        /* global PullToRefresh */
+        PullToRefresh.init({
+            shouldPullToRefresh: function(){
+            return false;
+            }
+        });
+    </script>
+    <script>
+        var solPubSub = null;
+
+        window.onload = function () {
+          // Initialize factory with the most recent API defaults
+          var factoryProps = new solace.SolclientFactoryProperties();
+          factoryProps.profile = solace.SolclientFactoryProfiles.version10;
+          solace.SolclientFactory.init(factoryProps);
+  
+          // enable logging to JavaScript console at WARN level
+          // NOTICE: works only with "solclientjs-debug.js"
+          solace.SolclientFactory.setLogLevel(solace.LogLevel.WARN);
+  
+          // create the solPubSub, specifying name of the subscription topic
+          solPubSub = new SolPubSub();
+          solPubSub.connect();
+        };
+      </script>
+    <style>
+        #jpad {
+            display: block;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            left: 0px;
+            top: 0px;
+        }
+        .cbox {
+            width: 300px;
+            height: 400px;
+        }
+        #color {
+            background: black;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="uk-card uk-card-body uk-card-secondary uk-position-center cbox">
+        <div id="color" class="uk-tile uk-align-center"></div>
+        <div id="jpad" class="uk-position-top"></div>
+        <div class="uk-position-bottom">                   
+            <button id="jump" class="uk-button uk-button-primary uk-align-center">JUMP</button>
+        </div>
+    </div>
+
+    <script>
+        var el = document.getElementById('jpad');
+        var positionData = {};
+        var globalEventLoop;
+        var queryParams = window.location.search.substr(1).split("&");
+        var whichTruck = queryParams[0].substr(2);
+        var color = queryParams[1].substr(2);
+        console.log(whichTruck, color);
+        document.getElementById('color').style.background = color;
+        document.getElementById('jump').addEventListener('click', function () {
+            jumpTruck();
+        });
+        var jpad = nipplejs.create({
+            zone: el,
+            mode: 'static',
+            position: { left: '50%', top: '50%' },
+            color: 'yellow'
+        }).on('move',
+            function(evt, data) {
+                processEvent(whichTruck, data);
+        }).on('start', 
+            function() {
+                eventLoop();
+        }).on('stop', 
+            function() {
+                console.log('joystick stop event');
+                positionData = {
+                truckNum: whichTruck,
+                steering: 0,
+                accel: 0,
+                brake: 0,
+                bump: 0
+            }
+        });
+    </script>
+</body>
+
+</html>
