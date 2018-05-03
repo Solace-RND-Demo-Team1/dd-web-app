@@ -1,0 +1,8 @@
+{
+    "apps": [{
+        "name": "http-server",
+        "scripts": "http-server",
+        "args": "-p 80",
+	"cwd": "/home/ec2-user/dd/node_modules/http-server/bin/"
+    }]
+}
