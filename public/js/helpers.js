@@ -34,14 +34,13 @@ function processEvent(truck, truckData) {
 }
 
 function eventLoop() {
-    globalEventLoop = setTimeout(function () {
+    globalEventLoop = setInterval(function () {
         solPubSub.publish(JSON.stringify(positionData), 'dd/t/active/' + whichTruck);
-        eventLoop();
-    }, 100);    
+    }, 50);    
 }
 
 function stopTruck() {
-    clearTimeout(globalEventLoop);
+    //clearTimeout(globalEventLoop);
     positionData = {
         truckNum: whichTruck,
         steering: 0,
@@ -53,7 +52,7 @@ function stopTruck() {
 }
 
 function jumpTruck() {
-    clearTimeout(globalEventLoop);
+    //clearTimeout(globalEventLoop);
     positionData = {
         truckNum: whichTruck,
         steering: 0,
