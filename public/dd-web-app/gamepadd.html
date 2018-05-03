@@ -84,10 +84,24 @@
         var positionData = {};
         var globalEventLoop;
 		var bgColours = [ '#782C87', '#1E5B8A', '#207534' ];
+
+        var purple = '#782C87';
+        var darkOrange = '#AC640F';
+        var blue = '#1E5B8A';
+        var lightOrange = '#DAA73C';
+        var yellow = '#D4B23E';
+        var green = '#207534';
+        var grey = '#474457'
+        var white = '#F5E9ED';
+        var pink = '#A8366F'
+        var cyan = '#00837F';
+
+        var bgColours = [purple, darkOrange, blue, lightOrange, yellow, green, grey, white, pink, cyan ];
+
         var queryParams = window.location.search.substr(1).split("&");
         var whichTruck = queryParams[0].substr(2);
         console.log(whichTruck );
-		document.getElementById('outer').style.backgroundColor = bgColours[0];
+		document.getElementById('outer').style.backgroundColor = bgColours[whichTruck-1];
 
         document.getElementById('jump').addEventListener('click', function () {
             jumpTruck();
