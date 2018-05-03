@@ -87,6 +87,7 @@ var SolPubSub = function () {
                     }
                 }) === -1) {
                     let position = players.push({});
+                    displayMessage(players.length + ' players in lobby');
                     let joinerRow = {
                         name: joinerName,
                         position: position,

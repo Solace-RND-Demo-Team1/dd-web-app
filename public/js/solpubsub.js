@@ -72,6 +72,7 @@ var SolPubSub = function () {
             solPubSub.log('Received message: "' + message.getBinaryAttachment() + '", details:\n' +
                 message.dump());
             let destination = message.getDestination().getName();
+            console.log(destination);
             if (destination === 'dd/t/lobby') {
                 updatePlayers(message.getBinaryAttachment());
             } else if (destination.startsWith('dd/t/lobby/')) {

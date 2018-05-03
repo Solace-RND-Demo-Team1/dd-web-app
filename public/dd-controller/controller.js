@@ -59,16 +59,16 @@ function gameStarted(numStartingPlayers) {
 }
 function playerSubstituted(playerId, colour) {
   let gamerTag = activePlayers[playerId].split(',');
-  solPubSub.publish(playerId + '||' + colour , 'dd/t/lobby/' + gamerTag[1]);
+  solPubSub.publish(playerId + '||' + gamerTag[1] , 'dd/t/lobby/' + gamerTag[1]);
   players.splice(0, 1);
   solPubSub.publish(JSON.stringify(players), 'dd/t/lobby');
 }
 function playerKilled(playerId) {
   console.log("Player : " + playerId + " killed !");
+  let killedPlayer = activePlayers[playerId].split(',');
+    solPubSub.publish('**KILLED**', 'dd/t/lobby/' + killedPlayer[1]);
   // only sub a new lobby player if there is one
   if (players.length > 0) {
-    let killedPlayer = activePlayers[playerId].split(',');
-    solPubSub.publish('**KILLED**', 'dd/t/lobby/' + killedPlayer[1]);
     let params = [];
     params[0] = playerId.toString();
     // Player Gamer Tag

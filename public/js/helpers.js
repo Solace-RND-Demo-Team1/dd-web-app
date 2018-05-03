@@ -64,14 +64,12 @@ function jumpTruck() {
     solPubSub.publish(JSON.stringify(positionData), 'dd/t/active/' + whichTruck);
 }
 
-function makePlayerActive(topicAndColor) {
-    console.log(topicAndColor);
-    var params = topicAndColor.split('||');
+function makePlayerActive(topicAndName) {
+    console.log(topicAndName);
+    var params = topicAndName.split('||');
     // index 0 is the vehicle id for the assigned vehicle
-    // index 1 is the colour assigned
-	// We use the vehicle id to determine the colour/image in gamepadd, so we no longer need the c param.
-    //window.location.href = 'gamepadd.html?t=' + params[0] + '&c=' + params[1];
-    window.location.href = 'gamepadd.html?t=' + params[0];
+    // index 1 is the player tag
+    window.location.href = 'gamepadd.html?t=' + params[0] + '&n=' + params[1];
 }
 
 function makePlayerInactive(topic) {

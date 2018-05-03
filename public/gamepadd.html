@@ -45,6 +45,10 @@
           // create the solPubSub, specifying name of the subscription topic
           solPubSub = new SolPubSub();
           solPubSub.connect();
+
+          solPubSub.session.on(solace.SessionEventCode.UP_NOTICE, function (sessionEvent) {
+            solPubSub.subscribe('dd/t/lobby/' + gamerTag);
+        });
         };
       </script>
     <style>
@@ -79,9 +83,6 @@
 			<div class="uk-position-bottom">                   
 				<button id="jump" class="uk-button uk-button-primary uk-align-center">JUMP</button>
 			</div>
-			<div class="uk-position-bottom">                   
-				<a href="index.html" class="uk-align-center">Home</a>
-			</div>
 		</div>
 
     <script>
@@ -109,8 +110,9 @@
         //document.getElementById('color').style.backgroundColor = bgColours[whichTruck-1];
 		var image = 'images/car_03_m' + whichTruck + '.png';
         console.log(image);
-		document.getElementById('backgroundImage').src = image;
-
+        document.getElementById('backgroundImage').src = image;
+        var gamerTag = queryParams[1].substr(2);
+        
         document.getElementById('jump').addEventListener('click', function () {
             jumpTruck();
         });
