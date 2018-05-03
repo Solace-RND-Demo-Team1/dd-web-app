@@ -106,12 +106,13 @@
 
         var queryParams = window.location.search.substr(1).split("&");
 		// we're passed a 0-based number, but the car images are numbered from 1.
-        var whichTruck = parseInt(queryParams[0].substr(2)) + 1;
-        //document.getElementById('color').style.backgroundColor = bgColours[whichTruck-1];
-		var image = 'images/car_03_m' + whichTruck + '.png';
+        var whichTruck = parseInt(queryParams[0].substr(2));
+        var imageNum = whichTruck + 1;
+		var image = 'images/car_03_m' + imageNum + '.png';
         console.log(image);
         document.getElementById('backgroundImage').src = image;
         var gamerTag = queryParams[1].substr(2);
+        //document.getElementById('color').style.backgroundColor = bgColours[whichTruck-1];
         
         document.getElementById('jump').addEventListener('click', function () {
             jumpTruck();
