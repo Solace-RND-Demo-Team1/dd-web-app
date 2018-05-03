@@ -28,6 +28,7 @@ function gameOptionsConfigured(maxPlayers) {
 }
 function enteredGameLobby() {
   console.log("Entering Game Lobby");
+  displayMessage(players.length + ' players in lobby');
   
 }
 function gameStarted(numStartingPlayers) {
