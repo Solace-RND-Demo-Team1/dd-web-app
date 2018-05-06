@@ -10,7 +10,7 @@ function moveCar(carNum, s, a, footbreak, bump) {
       + params[1] + ","
       + params[2] + ","
       + params[3];
-    console.log('Vehicle-' + carNum, 'MoveVehicle', dataStruct);
+    //console.log('Vehicle-' + carNum, 'MoveVehicle', dataStruct);
 
     gameInstance.SendMessage('Vehicle-' + carNum, 'MoveVehicle', dataStruct);
   }
@@ -18,28 +18,25 @@ function moveCar(carNum, s, a, footbreak, bump) {
 function displayMessage(text) {
   gameInstance.SendMessage('GameLevel', 'DisplayBillboardText', text); 
 }
-// Handle Events Reported by Unity Game
-function killPlayer(playerId) {
-  window.alert("Player : " + playerId + " killed !");
-}
+
 function gameOptionsConfigured(maxPlayers) {
-  console.log("Game Options: Max Players = " + maxPlayers);
+  //console.log("Game Options: Max Players = " + maxPlayers);
   maxStartingPlayers = maxPlayers;
 }
 function enteredGameLobby() {
-  console.log("Entering Game Lobby");
+  //console.log("Entering Game Lobby");
   displayMessage(players.length + ' players in lobby');
   
 }
 function gameStarted(numStartingPlayers) {
-  console.log('Game started with: ' + numStartingPlayers);
+  //console.log('Game started with: ' + numStartingPlayers);
   var playerToActivate;
   var numStartingPlayers = maxStartingPlayers;
 
   if (players.length < maxStartingPlayers) {
     numStartingPlayers = players.length;
   }
-  console.log("Game Started with " + numStartingPlayers + " players!");
+  //console.log("Game Started with " + numStartingPlayers + " players!");
 
   for (i=0; i < numStartingPlayers; i++) {
     let params = [];
@@ -66,7 +63,7 @@ function playerSubstituted(playerId, colour) {
   displayMessage(players.length + ' players in lobby');
 }
 function playerKilled(playerId) {
-  console.log("Player : " + playerId + " killed !");
+  //console.log("Player : " + playerId + " killed !");
   let killedPlayer = activePlayers[playerId].split(',');
     solPubSub.publish('**KILLED**', 'dd/t/lobby/' + killedPlayer[1]);
   // only sub a new lobby player if there is one

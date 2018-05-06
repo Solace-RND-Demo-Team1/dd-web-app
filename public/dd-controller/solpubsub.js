@@ -11,7 +11,7 @@ var SolPubSub = function () {
         var time = [('0' + now.getHours()).slice(-2), ('0' + now.getMinutes()).slice(-2),
             ('0' + now.getSeconds()).slice(-2)];
         var timestamp = '[' + time.join(':') + '] ';
-        console.log(timestamp + line);
+        //console.log(timestamp + line);
     };
 
     solPubSub.log('\n*** solPubSub is ready to connect ***');
@@ -93,7 +93,7 @@ var SolPubSub = function () {
                         position: position,
                         status: "waiting"
                     };
-                    console.log(joinerName + ' joined');
+                    //console.log(joinerName + ' joined');
                     players.splice(position - 1, 1, joinerRow);
                     solPubSub.reply(message, 'SUCCESS||' + joinerName);
                     solPubSub.publish(JSON.stringify(players), 'dd/t/lobby');
@@ -103,7 +103,7 @@ var SolPubSub = function () {
             } else if (destination.getName().startsWith('dd/t/active/')) {
                 solPubSub.log(message.getBinaryAttachment());
                 let whichTruck = message.getDestination().getName().split("/");
-                console.log(whichTruck[3]);
+                //console.log(whichTruck[3]);
                 let truck = whichTruck[3];
                 var truckEvent = JSON.parse(message.getBinaryAttachment());
                 moveCar(truck, truckEvent.steering, truckEvent.accel, 0, truckEvent.bump);
