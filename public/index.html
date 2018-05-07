@@ -32,12 +32,11 @@
         var solPubSub = null;
 
 		function joinGame() {
-              let pName = document.getElementById("playerName");
-              if (pName.value) {
-                  solPubSub.request('dd/t/join', pName.value);
-              } else {
-                  pName.classList.add('uk-form-danger');
-              }
+            let pName = document.getElementById("playerName").value.replace(/\s+/g, '').substr(0,12);
+            console.log(pName);
+            if (pName) {
+                solPubSub.request('dd/t/join', pName);
+            }
 		}
 
         window.onload = function () {
