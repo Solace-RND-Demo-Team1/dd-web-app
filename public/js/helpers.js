@@ -36,7 +36,7 @@ function processEvent(truck, truckData) {
 function eventLoop() {
     globalEventLoop = setInterval(function () {
         solPubSub.publish(JSON.stringify(positionData), 'dd/t/active/' + whichTruck);
-    }, 50);    
+    }, 100);    
 }
 
 function stopTruck() {
