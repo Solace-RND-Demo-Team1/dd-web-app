@@ -5,11 +5,11 @@ function moveCar(carNum, s, a, footbreak, bump) {
     // params[2] = parseFloat(footbreak);
     // params[3] = parseFloat(bump);
 
-    var dataStruct =
-      + params[0] + ","
-      + params[1] + ","
-      + params[2] + ","
-      + params[3];
+    // var dataStruct =
+    //   + params[0] + ","
+    //   + params[1] + ","
+    //   + params[2] + ","
+    //   + params[3];
     var dataStruct =
       + s + ","
       + a + ","
